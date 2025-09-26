@@ -1,0 +1,39 @@
+# Maven build
+target/
+# Keep Maven Wrapper JAR
+!.mvn/wrapper/maven-wrapper.jar
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# Eclipse (in case)
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# Logs & temp
+*.log
+*.tmp
+
+# OS files
+.DS_Store
+
+# Reports (often inside target/, listed for clarity)
+surefire-reports/
+failsafe-reports/
+jacoco.exec
+
+# Selenium artifacts
+selenium-screenshots/
+selenium-downloads/
+screenshots/
+
+# Environment / local overrides
+*.env
+*.env.local
+local.properties

@@ -1,0 +1,39 @@
+services:
+  selenium-hub:
+    image: selenium/hub:4.35.0
+    container_name: selenium-hub
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+    environment:
+      # Sets the session timeout to 5 minutes (300 seconds)
+      - SE_SESSION_TIMEOUT=300
+      # Sets the session request timeout to 1 minute (60 seconds)
+      - SE_SESSION_REQUEST_TIMEOUT=60
+      - SE_SESSION_RETRY_TIMEOUT=10
+      - SE_SESSION_POLL_INTERVAL=5
+
+  chrome:
+    image: selenium/node-chrome:140.0-20250828
+    container_name: chrome
+    shm_size: 2g
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_GRID_URL=http://selenium-hub:4444
+
+  firefox:
+    image: selenium/node-firefox:4.10.0
+    container_name: firefox
+    shm_size: 2g
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_GRID_URL=http://selenium-hub:4444
