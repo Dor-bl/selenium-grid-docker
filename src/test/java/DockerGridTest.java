@@ -78,13 +78,6 @@ public class DockerGridTest {
         System.out.println("Firefox DuckDuckGo test passed! ✔️");
     }
 
-    private void assertDuckDuckGoHomeLoaded(WebDriver driver) {
-        WebElement box = new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.name("q")));
-        assertTrue(box.isDisplayed() && box.isEnabled(), "Search box not ready");
-        assertTrue(driver.getCurrentUrl().contains("duckduckgo.com"), "Not on DuckDuckGo domain");
-    }
-
     private void assertDuckDuckGoSearchResultsShown(WebDriver driver) {
         // Wait for at least one result title element (updated selector for DuckDuckGo)
         new WebDriverWait(driver, Duration.ofSeconds(10))
