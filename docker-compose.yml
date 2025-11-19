@@ -13,6 +13,8 @@ services:
       - SE_SESSION_REQUEST_TIMEOUT=60
       - SE_SESSION_RETRY_TIMEOUT=10
       - SE_SESSION_POLL_INTERVAL=5
+      # Optional: Set timezone for the hub as well
+
 
   chrome:
     image: selenium/node-chrome:140.0-20250828
@@ -20,20 +22,39 @@ services:
     shm_size: 2g
     depends_on:
       - selenium-hub
+    ports:
+      - "5900:5900"
+      - "7900:7900"
     environment:
       - SE_EVENT_BUS_HOST=selenium-hub
       - SE_EVENT_BUS_PUBLISH_PORT=4442
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
       - SE_NODE_GRID_URL=http://selenium-hub:4444
-
+      - TZ=Australia/Sydney
+      - SE_VNC_NO_PASSWORD=1
+      # Session termination options
+      - SE_NODE_SESSION_TIMEOUT=300
+      - SE_NODE_MAX_SESSIONS=1
+      - SE_DRAIN_AFTER_SESSION_COUNT=1
+    restart: unless-stopped
+      
   firefox:
     image: selenium/node-firefox:4.10.0
     container_name: firefox
     shm_size: 2g
     depends_on:
       - selenium-hub
+    ports:
+      - "5901:5900"
+      - "7901:7900"
     environment:
       - SE_EVENT_BUS_HOST=selenium-hub
       - SE_EVENT_BUS_PUBLISH_PORT=4442
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
       - SE_NODE_GRID_URL=http://selenium-hub:4444
+      - SE_VNC_NO_PASSWORD=1
+      # Session termination options
+      - SE_NODE_SESSION_TIMEOUT=300
+      - SE_NODE_MAX_SESSIONS=1
+      - SE_DRAIN_AFTER_SESSION_COUNT=1
+    restart: unless-stopped
